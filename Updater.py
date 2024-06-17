@@ -2,6 +2,7 @@ from sqlalchemy import update
 from datetime import datetime
 from models import Program, Section, Class
 import db
+from db_session import db_session
 
 
 def update_program_dates(program_id, new_start_date, new_end_date):
@@ -64,6 +65,15 @@ def show_changes_for_program(program_id):
                 print(f"      Class: {cls.name}, Start Date: {cls.start_date}, End Date: {cls.end_date}")
     except Exception:
         print(f"No program found with that id.")
+
+
+def update_class_name(class_id, name):
+    with db_session():
+        my_class = db.session.query(Class).filter(Class.id == class_id).first()
+        if my_class:
+            my_class.name = name
+        else:
+            print("No class found with that id")
 
 
 
